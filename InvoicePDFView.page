@@ -1,0 +1,111 @@
+<apex:page controller="InvoicePDFController" applyHtmlTag="false" showHeader="false" renderAs="PDF">
+    <html>
+        <head>
+            <style>
+                * {
+                box-sizing: border-box;
+                }
+                
+                .heading {
+                font-weight: bold;
+                }
+                
+                .heading--main {
+                font-size: 36px;
+                }
+                
+                .heading--sub {
+                font-size: 21px;
+                }
+                
+                .box--half {
+                float: left;
+                width: 50%;
+                }
+                
+                .box--full {
+                float: left;
+                width: 100%;
+                }
+                
+                table {
+                border-collapse: collapse;
+                margin-top: 25px;
+                width: 100%;
+                }
+                
+                th {
+                background-color: #92d5f0;
+                font-align: left;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 5px;
+                }
+                
+                td {
+                font-size: 12px;
+                padding: 5px;
+                text-align: left;
+                width: 33%;
+                }                
+            </style>
+        </head>
+        <body>
+            <center>
+                <h1 class="heading heading--main">Invoice Summary</h1>
+            </center>
+            <div class="box--half">
+                <h2 class="heading heading--sub">Bill To:</h2>
+                <span>{!account.Name}</span>
+                <br />
+                <span>{!account.BillingStreet}</span>
+                <br />
+                <span>{!account.BillingCity}&nbsp;{!account.BillingState}&nbsp;{!account.BillingPostalCode}</span>
+            </div>
+            <div class="box-half">
+                <h2 class="heading heading--sub">Pay To:</h2>
+                <span>Fake Account</span>
+                <br />
+                <span>Address</span>
+                <br />
+                <span>City, State PostalCode</span>
+                <br />
+                <span>Country</span>
+            </div>
+            <div class="box-full">
+                <h2 class="heading heading--sub">Invoiced</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Close Date</th>
+                    </tr>
+                    <apex:repeat value="{!wonOppList}" var="wonOpp">
+                        <tr>
+                            <td>{!wonOpp.Name}</td>
+                            <td>{!wonOpp.Amount}</td>
+                            <td>{!MONTH(wonOpp.CloseDate)}-{!DAY(wonOpp.CloseDate)}-{!YEAR(wonOpp.CloseDate)}</td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+            <div class="box--full">
+                <h2 class="heading heading--sub">Not Invoiced</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                    <apex:repeat value="{!notWonOppList}" var="notWonOpp">
+                        <tr>
+                            <td>{!notWonOpp.Name}</td>
+                            <td>{!notWonOpp.Amount}</td>
+                            <td>{!notWonOpp.StageName}</td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+        </body>
+    </html>
+</apex:page>
